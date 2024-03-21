@@ -8,14 +8,14 @@ exports.LoginPage = class LoginPage {
         this.usernameInput = page.getByLabel('Username')
         this.passwordInput = page.getByLabel('Password')
         this.loginBtn = page.getByRole('button', { name: 'Login' })
-        this.loginFailFlashNotification = page.locator('[id="flash"]')
+        this.loginFailFlashNotification = page.locator('[id="flash"]') // just a different method to find a element
     }
 
     async gotoLoginPage(){
         await this.page.goto('https://the-internet.herokuapp.com/login');
     }
 
-    async login(username, password){
+    async login(username, password){ // method for complete login, could be splitted for 3 different steps if you want follow BDD for non technical people
         await this.usernameInput.fill(username)
         await this.passwordInput.fill(password)
         await this.loginBtn.click()
@@ -29,7 +29,7 @@ exports.LoginPage = class LoginPage {
           }
     }
 
-    async verifiFailedLoginNorification(){
-        await expect(this.loginFailFlashNotification).toHaveText('Your username is invalid! ×') // it is a strict assertion with x we can use *contain* instead of *have*
+    async verifiFailedLoginNorification(message){
+        await expect(this.loginFailFlashNotification).toHaveText(message)
     }
 }
